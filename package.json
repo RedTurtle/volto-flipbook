@@ -1,0 +1,22 @@
+{
+  "name": "@plone-collective/volto-flipbook",
+  "version": "0.1.0",
+  "description": "volto-flipbook: Volto add-on",
+  "main": "src/index.js",
+  "license": "MIT",
+  "keywords": [
+    "volto-addon",
+    "volto",
+    "plone",
+    "react"
+  ],
+  "scripts": {
+    "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon"
+  },
+  "dependencies": {
+    "react-pdf": "^6.2.0"
+  },
+  "devDependencies": {
+    "@plone/scripts": "*"
+  }
+}

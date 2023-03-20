@@ -2,13 +2,13 @@
 // https://github.com/iberezansky/flip-book-jquery
 import { FlipBookEdit, FlipBookView } from './FlipBook';
 
-import tableSVG from '@plone/volto/icons/table.svg';
+import pdf_icon from './FlipBook/file-pdf-regular.svg';
 
 const applyConfig = (config) => {
   config.blocks.blocksConfig.flipBook = {
     id: 'flipBook',
     title: 'FlipBook',
-    icon: tableSVG,
+    icon: pdf_icon,
     group: 'common',
     view: FlipBookView,
     edit: FlipBookEdit,

@@ -1,9 +1,45 @@
-import './FlipBookView.css';
+import './_flipbook.scss';
 
 import { Document, Page, pdfjs } from 'react-pdf';
 import React, { useRef, useState } from 'react';
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Icon,
+} from 'design-react-kit/dist/design-react-kit';
+
+import { defineMessages, useIntl } from 'react-intl';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+const messages = defineMessages({
+  first_page: {
+    id: 'first_page',
+    defaultMessage: 'First page',
+  },
+  previous_page: {
+    id: 'previous_page',
+    defaultMessage: 'Previous',
+  },
+  next_page: {
+    id: 'next_page',
+    defaultMessage: 'Next page',
+  },
+  play_start: {
+    id: 'play_start',
+    defaultMessage: 'Play',
+  },
+  play_stop: {
+    id: 'play_stop',
+    defaultMessage: 'Stop',
+  },
+  download_pdf: {
+    id: 'download_pdf',
+    defaultMessage: 'Download',
+  },
+});
 
 // import flipbook from './flipbook-viewer';
 
@@ -12,6 +48,7 @@ const FlipBookView = (props) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [playing, setPlaying] = useState(false);
   const timer = useRef();
+  const intl = useIntl();
 
   const offset = props.data.singlePage ? 1 : 2;
 
@@ -65,7 +102,7 @@ const FlipBookView = (props) => {
   // TODO: rendere i pulsanti della paginazione più gradevoli, esempio
   // https://projects.wojtekmaj.pl/react-pdf/
   return props.data.url ? (
-    <div style={{ minHeight: 842 }} className="flipbook-wrapper">
+    <Container className="flipbook-wrapper">
       <Document
         file={`${props.data.url}/@@download/file`}
         onLoadSuccess={onDocumentLoadSuccess}
@@ -82,45 +119,73 @@ const FlipBookView = (props) => {
           </>
         )}
       </Document>
-      <div className="flipbook-buttons">
-        <button type="button" onClick={() => setPageNumber(1)}>
-          First page
-        </button>
-        <button
-          type="button"
-          disabled={pageNumber <= 1}
-          onClick={() => changePage(-offset, numPages)}
+      <Row className="flipbook-buttons justify-content-center">
+        <Col xs="2">
+          <Button color="primary" size="sm" onClick={() => setPageNumber(1)}>
+            <Icon color="white" icon="it-refresh" />{' '}
+            {intl.formatMessage(messages.first_page)}
+          </Button>
+        </Col>
+        <Col xs="2">
+          <Button
+            disabled={pageNumber <= 1}
+            color="primary"
+            size="sm"
+            onClick={() => changePage(-offset, numPages)}
+          >
+            <Icon color="white" icon="it-chevron-left" />{' '}
+            {intl.formatMessage(messages.previous_page)}
+          </Button>
+        </Col>
+        <Col xs="2">
+          <span>
+            Pages{' '}
+            {(props.data.singlePage
+              ? pageNumber
+              : `${pageNumber} and ${pageNumber + 1}`) ||
+              (numPages ? 1 : '--')}{' '}
+            of {numPages || '--'}
+          </span>
+        </Col>
+        <Col xs="2">
+          <Button
+            color="primary"
+            size="sm"
+            disabled={!pageNumber || pageNumber + offset > numPages}
+            onClick={() => changePage(offset, numPages)}
+          >
+            <Icon color="white" icon="it-chevron-right" />
+            {intl.formatMessage(messages.next_page)}
+          </Button>
+        </Col>
+        <Col xs="2">
+          {playing ? (
+            <Button color="primary" size="sm" onClick={doStop}>
+              <Icon color="white" icon="it-close" />{' '}
+              {intl.formatMessage(messages.play_stop)}
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              size="sm"
+              onClick={() => doPlay(pageNumber, numPages)}
+            >
+              <Icon color="white" icon="it-arrow-right-triangle" />
+              {intl.formatMessage(messages.play_start)}
+            </Button>
+          )}
+        </Col>
+      </Row>
+      <Row className="flipbook-download justify-content-center">
+        <a
+          className="btn btn-secondary my-3"
+          href={`${props.data.url}/@@download/file`}
+          download
         >
-          Previous
-        </button>
-        <span>
-          Page
-          {(props.data.singlePage
-            ? pageNumber
-            : `${pageNumber}, ${pageNumber + 1}`) || (numPages ? 1 : '--')}{' '}
-          of {numPages || '--'}
-        </span>
-        <button
-          type="button"
-          disabled={!pageNumber || pageNumber + offset > numPages}
-          onClick={() => changePage(offset, numPages)}
-        >
-          Next
-        </button>
-        {playing ? (
-          <button type="button" onClick={doStop}>
-            Stop
-          </button>
-        ) : (
-          <button type="button" onClick={() => doPlay(pageNumber, numPages)}>
-            Play
-          </button>
-        )}
-        <a href={`${props.data.url}/@@download/file`} download>
-          Download
+          {intl.formatMessage(messages.download_pdf)}
         </a>
-      </div>
-    </div>
+      </Row>
+    </Container>
   ) : (
     <div>no url</div>
   );

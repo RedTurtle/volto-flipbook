@@ -10,22 +10,26 @@ import {
   Icon,
 } from 'design-react-kit/dist/design-react-kit';
 
+import cx from 'classnames';
+
 import { defineMessages, useIntl } from 'react-intl';
+
+import useWindowSize from '../helpers/windowSize';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const messages = defineMessages({
   first_page: {
     id: 'first_page',
-    defaultMessage: 'First page',
+    defaultMessage: 'Prima pagina',
   },
   previous_page: {
     id: 'previous_page',
-    defaultMessage: 'Previous',
+    defaultMessage: 'Anteriore',
   },
   next_page: {
     id: 'next_page',
-    defaultMessage: 'Next page',
+    defaultMessage: 'Prossima',
   },
   play_start: {
     id: 'play_start',
@@ -37,7 +41,7 @@ const messages = defineMessages({
   },
   download_pdf: {
     id: 'download_pdf',
-    defaultMessage: 'Download',
+    defaultMessage: 'Scarica PDF',
   },
 });
 
@@ -50,7 +54,10 @@ const FlipBookView = (props) => {
   const timer = useRef();
   const intl = useIntl();
 
-  const offset = props.data.singlePage ? 1 : 2;
+  const size = useWindowSize();
+  const singlePageBreakpoint = size.width <= 1224;
+
+  const offset = props.data.singlePage || singlePageBreakpoint ? 1 : 2;
 
   const options = {
     cMapUrl: 'cmaps/',
@@ -96,37 +103,55 @@ const FlipBookView = (props) => {
     setPlaying(false);
   };
 
-  // TODO: se non metto un min-height la pagina scrolla ogni cambio di pagina,
-  //       trovare a livello di css un modo migliore per farlo, anche perchè il pdf
-  //       potrebbe avere altezze diverse (eg. responsive, portrait/landscape, ...)
-  // TODO: rendere i pulsanti della paginazione più gradevoli, esempio
-  // https://projects.wojtekmaj.pl/react-pdf/
   return props.data.url ? (
-    <Container className="flipbook-wrapper">
+    <Container
+      className={cx('flipbook-wrapper', {
+        'bg-gray': props.data.setBackground,
+      })}
+    >
       <Document
         file={`${props.data.url}/@@download/file`}
         onLoadSuccess={onDocumentLoadSuccess}
         options={options}
+        loading="Aggiornando PDF"
+        error="Caricamento PDF fallito"
+        className="py-3"
       >
-        {props.data.singlePage ? (
-          <Page pageNumber={pageNumber}></Page>
+        {props.data.singlePage || singlePageBreakpoint ? (
+          <Page
+            scale={size.width <= 920 ? 0.6 : 0.9}
+            className="flipbook-singlepage"
+            pageNumber={pageNumber}
+            renderAnnotationLayer={false}
+            renderTextLayer={false}
+          ></Page>
         ) : (
           <>
-            <Page pageNumber={pageNumber}></Page>
+            <Page
+              scale={0.9}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              pageNumber={pageNumber}
+            ></Page>
             {pageNumber + 1 < numPages && (
-              <Page pageNumber={pageNumber + 1}></Page>
+              <Page
+                scale={0.9}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                pageNumber={pageNumber + 1}
+              ></Page>
             )}
           </>
         )}
       </Document>
-      <Row className="flipbook-buttons justify-content-center">
-        <Col xs="2">
+      <Row className="flipbook-buttons justify-content-center py-3">
+        <Col xs="3" md="2" className="mt-3">
           <Button color="primary" size="sm" onClick={() => setPageNumber(1)}>
             <Icon color="white" icon="it-refresh" />{' '}
             {intl.formatMessage(messages.first_page)}
           </Button>
         </Col>
-        <Col xs="2">
+        <Col xs="3" md="2" className="mt-3">
           <Button
             disabled={pageNumber <= 1}
             color="primary"
@@ -137,17 +162,17 @@ const FlipBookView = (props) => {
             {intl.formatMessage(messages.previous_page)}
           </Button>
         </Col>
-        <Col xs="2">
+        <Col xs="4" md="2" className="mt-3">
           <span>
             Pages{' '}
-            {(props.data.singlePage
+            {(props.data.singlePage || singlePageBreakpoint
               ? pageNumber
               : `${pageNumber} and ${pageNumber + 1}`) ||
               (numPages ? 1 : '--')}{' '}
             of {numPages || '--'}
           </span>
         </Col>
-        <Col xs="2">
+        <Col xs="3" md="2" className="mt-3">
           <Button
             color="primary"
             size="sm"
@@ -158,7 +183,7 @@ const FlipBookView = (props) => {
             {intl.formatMessage(messages.next_page)}
           </Button>
         </Col>
-        <Col xs="2">
+        <Col xs="5" md="2" className="mt-3">
           {playing ? (
             <Button color="primary" size="sm" onClick={doStop}>
               <Icon color="white" icon="it-close" />{' '}

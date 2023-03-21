@@ -2,12 +2,16 @@ import { defineMessages } from 'react-intl';
 
 const messages = defineMessages({
   source: {
-    id: 'Source',
+    id: 'source',
     defaultMessage: 'Source',
   },
   single_page: {
     id: 'single_page',
     defaultMessage: 'Mostra solo una pagina a volte',
+  },
+  setBackground: {
+    id: 'setBackground',
+    defaultMessage: 'Sfondo grigio',
   },
   play_speed: {
     id: 'play_speed',
@@ -28,7 +32,7 @@ export function FlipBookSchema({ formData, intl }) {
             {
               id: 'settings',
               title: 'Settings',
-              fields: ['singlePage', 'playSpeed'],
+              fields: ['singlePage', 'setBackground', 'playSpeed'],
             },
           ]
         : []),
@@ -40,6 +44,10 @@ export function FlipBookSchema({ formData, intl }) {
       },
       singlePage: {
         title: intl.formatMessage(messages.single_page),
+        type: 'boolean',
+      },
+      setBackground: {
+        title: intl.formatMessage(messages.setBackground),
         type: 'boolean',
       },
       playSpeed: {

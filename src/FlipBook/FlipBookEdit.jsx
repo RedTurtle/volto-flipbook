@@ -25,11 +25,11 @@ import uploadSVG from '@plone/volto/icons/upload.svg';
 const messages = defineMessages({
   FileBlockInputPlaceholder: {
     id: 'Browse the site, drop a file, or type an URL',
-    defaultMessage: 'Browse the site, drop a file, or type an URL',
+    defaultMessage: 'Ricerca sul sito o carica un file',
   },
   uploadingFile: {
     id: 'Uploading file',
-    defaultMessage: 'Uploading file',
+    defaultMessage: 'Carica file',
   },
 });
 

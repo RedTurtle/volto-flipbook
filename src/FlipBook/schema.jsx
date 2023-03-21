@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 const messages = defineMessages({
   source: {
     id: 'source',
-    defaultMessage: 'Source',
+    defaultMessage: 'Percorso',
   },
   single_page: {
     id: 'single_page',

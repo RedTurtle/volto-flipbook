@@ -27,17 +27,33 @@ const messages = defineMessages({
     id: 'previous_page',
     defaultMessage: 'Anteriore',
   },
+  previous_page_label: {
+    id: 'previous_page_label',
+    defaultMessage: 'Pagina anteriore del PDF',
+  },
   next_page: {
     id: 'next_page',
     defaultMessage: 'Prossima',
+  },
+  next_page_label: {
+    id: 'next_page_label',
+    defaultMessage: 'Prossima pagina del PDF',
   },
   play_start: {
     id: 'play_start',
     defaultMessage: 'Play',
   },
+  play_start_label: {
+    id: 'play_start_label',
+    defaultMessage: 'Inizia lo scrollo automatico del PDF',
+  },
   play_stop: {
     id: 'play_stop',
     defaultMessage: 'Stop',
+  },
+  play_stop_label: {
+    id: 'play_stop_label',
+    defaultMessage: 'Ferma lo scrollo automatico del PDF',
   },
   download_pdf: {
     id: 'download_pdf',
@@ -157,6 +173,7 @@ const FlipBookView = (props) => {
             color="primary"
             size="sm"
             onClick={() => changePage(-offset, numPages)}
+            aria-label={intl.formatMessage(messages.previous_page_label)}
           >
             <Icon color="white" icon="it-chevron-left" />{' '}
             {intl.formatMessage(messages.previous_page)}
@@ -178,6 +195,7 @@ const FlipBookView = (props) => {
             size="sm"
             disabled={!pageNumber || pageNumber + offset > numPages}
             onClick={() => changePage(offset, numPages)}
+            aria-label={intl.formatMessage(messages.next_page_label)}
           >
             <Icon color="white" icon="it-chevron-right" />
             {intl.formatMessage(messages.next_page)}
@@ -185,7 +203,12 @@ const FlipBookView = (props) => {
         </Col>
         <Col xs="5" md="2" className="mt-3">
           {playing ? (
-            <Button color="primary" size="sm" onClick={doStop}>
+            <Button
+              color="primary"
+              size="sm"
+              onClick={doStop}
+              aria-label={intl.formatMessage(messages.play_stop)}
+            >
               <Icon color="white" icon="it-close" />{' '}
               {intl.formatMessage(messages.play_stop)}
             </Button>
@@ -194,6 +217,7 @@ const FlipBookView = (props) => {
               color="primary"
               size="sm"
               onClick={() => doPlay(pageNumber, numPages)}
+              aria-label={intl.formatMessage(messages.play_start_label)}
             >
               <Icon color="white" icon="it-arrow-right-triangle" />
               {intl.formatMessage(messages.play_start)}

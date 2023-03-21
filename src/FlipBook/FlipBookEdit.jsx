@@ -193,7 +193,7 @@ class FlipBookEdit extends Component {
       <div>
         {this.props.data.url && <FlipBookView {...this.props} />}
         <div>
-          {this.props.editable && (
+          {!this.props.data.url && this.props.editable && (
             <Dropzone
               noClick
               onDrop={this.onDrop}
@@ -297,7 +297,7 @@ class FlipBookEdit extends Component {
       </div>
     );
   }
-};
+}
 
 export default compose(
   injectIntl,

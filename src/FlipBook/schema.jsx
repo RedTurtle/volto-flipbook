@@ -1,9 +1,17 @@
 import { defineMessages } from 'react-intl';
 
 const messages = defineMessages({
-  Source: {
+  source: {
     id: 'Source',
     defaultMessage: 'Source',
+  },
+  single_page: {
+    id: 'single_page',
+    defaultMessage: 'Mostra solo una pagina a volte',
+  },
+  play_speed: {
+    id: 'play_speed',
+    defaultMessage: 'Velocità riproduzione',
   },
 });
 
@@ -27,17 +35,18 @@ export function FlipBookSchema({ formData, intl }) {
     ],
     properties: {
       url: {
-        title: intl.formatMessage(messages.Source),
+        title: intl.formatMessage(messages.source),
         widget: 'url',
       },
       singlePage: {
-        title: 'Single page',
+        title: intl.formatMessage(messages.single_page),
         type: 'boolean',
       },
       playSpeed: {
-        title: 'play speed',
+        title: intl.formatMessage(messages.play_speed),
         type: 'number',
         default: 5,
+        description: 'Tempo misurato in secondi',
       },
     },
     required: [],

@@ -1,24 +1,38 @@
-.flipbook-wrapper {
-  background-color: lightgray;
-  .react-pdf__Document {
-    display: flex;
-    flex-direction: row;
-  }
-  .flipbook-buttons {
-    align-items: center;
-    & > div {
+.flipBook {
+  .flipbook-wrapper {
+    background-color: lightgray;
+    .react-pdf__Document {
       display: flex;
-      justify-content: center;
-      .btn {
+      flex-direction: row;
+    }
+    .flipbook-buttons {
+      align-items: center;
+      & > div {
         display: flex;
-        width: 100%;
         justify-content: center;
-        align-items: center;
-        gap: 0.5em;
-        .icon {
-          width: 1.5em;
-          height: 1.5em;
+        .btn {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5em;
+          .icon {
+            width: 1.5em;
+            height: 1.5em;
+          }
         }
+      }
+    }
+  }
+}
+
+//to hide buttons from edit mode
+.cms-ui {
+  .flipBook {
+    .flipbook-wrapper {
+      .flipbook-buttons,
+      .flipbook-download {
+        display: none;
       }
     }
   }

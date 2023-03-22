@@ -7,7 +7,7 @@ const messages = defineMessages({
   },
   single_page: {
     id: 'single_page',
-    defaultMessage: 'Mostra solo una pagina a volte',
+    defaultMessage: 'Mostra solo una pagina per volta',
   },
   setBackground: {
     id: 'setBackground',

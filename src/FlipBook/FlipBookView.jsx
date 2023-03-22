@@ -9,6 +9,7 @@ import {
   Button,
   Icon,
 } from 'design-react-kit/dist/design-react-kit';
+import { UniversalLink } from '@plone/volto/components';
 
 import cx from 'classnames';
 
@@ -25,19 +26,19 @@ const messages = defineMessages({
   },
   previous_page: {
     id: 'previous_page',
-    defaultMessage: 'Anteriore',
+    defaultMessage: 'Precedente',
   },
   previous_page_label: {
     id: 'previous_page_label',
-    defaultMessage: 'Pagina anteriore del PDF',
+    defaultMessage: 'Pagina precedente del PDF',
   },
   next_page: {
     id: 'next_page',
-    defaultMessage: 'Prossima',
+    defaultMessage: 'Successiva',
   },
   next_page_label: {
     id: 'next_page_label',
-    defaultMessage: 'Prossima pagina del PDF',
+    defaultMessage: 'Pagina successiva del PDF',
   },
   play_start: {
     id: 'play_start',
@@ -126,7 +127,11 @@ const FlipBookView = (props) => {
       })}
     >
       <Document
-        file={`${props.data.url}/@@download/file`}
+        file={
+          props.data.url.includes('@@download')
+            ? props.data.url
+            : `${props.data.url}/@@download/file`
+        }
         onLoadSuccess={onDocumentLoadSuccess}
         options={options}
         loading="Aggiornando PDF"
@@ -139,20 +144,20 @@ const FlipBookView = (props) => {
             className="flipbook-singlepage"
             pageNumber={pageNumber}
             renderAnnotationLayer={false}
-            renderTextLayer={false}
+            renderTextLayer={true}
           ></Page>
         ) : (
           <>
             <Page
               scale={0.9}
-              renderTextLayer={false}
+              renderTextLayer={true}
               renderAnnotationLayer={false}
               pageNumber={pageNumber}
             ></Page>
             {pageNumber + 1 < numPages && (
               <Page
                 scale={0.9}
-                renderTextLayer={false}
+                renderTextLayer={true}
                 renderAnnotationLayer={false}
                 pageNumber={pageNumber + 1}
               ></Page>
@@ -161,7 +166,7 @@ const FlipBookView = (props) => {
         )}
       </Document>
       <Row className="flipbook-buttons justify-content-center py-3">
-        <Col xs="3" md="2" className="mt-3">
+        <Col xs="5" md="2" className="mt-3">
           <Button color="primary" size="sm" onClick={() => setPageNumber(1)}>
             <Icon color="white" icon="it-refresh" />{' '}
             {intl.formatMessage(messages.first_page)}
@@ -181,12 +186,12 @@ const FlipBookView = (props) => {
         </Col>
         <Col xs="4" md="2" className="mt-3">
           <span>
-            Pages{' '}
+            Pagina{' '}
             {(props.data.singlePage || singlePageBreakpoint
               ? pageNumber
-              : `${pageNumber} and ${pageNumber + 1}`) ||
+              : `${pageNumber} e ${pageNumber + 1}`) ||
               (numPages ? 1 : '--')}{' '}
-            of {numPages || '--'}
+            di {numPages || '--'}
           </span>
         </Col>
         <Col xs="3" md="2" className="mt-3">
@@ -226,13 +231,13 @@ const FlipBookView = (props) => {
         </Col>
       </Row>
       <Row className="flipbook-download justify-content-center">
-        <a
+        <UniversalLink
           className="btn btn-secondary my-3"
           href={`${props.data.url}/@@download/file`}
           download
         >
           {intl.formatMessage(messages.download_pdf)}
-        </a>
+        </UniversalLink>
       </Row>
     </Container>
   ) : (

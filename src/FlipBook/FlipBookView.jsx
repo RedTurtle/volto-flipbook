@@ -24,6 +24,10 @@ const messages = defineMessages({
     id: 'first_page',
     defaultMessage: 'Prima pagina',
   },
+  first_page_label: {
+    id: 'first_page_label',
+    defaultMessage: 'Vai alla prima pagina del visualizzatore di pdf',
+  },
   previous_page: {
     id: 'previous_page',
     defaultMessage: 'Precedente',
@@ -58,7 +62,7 @@ const messages = defineMessages({
   },
   download_pdf: {
     id: 'download_pdf',
-    defaultMessage: 'Scarica PDF',
+    defaultMessage: 'Visualizza PDF',
   },
 });
 
@@ -167,7 +171,12 @@ const FlipBookView = (props) => {
       </Document>
       <Row className="flipbook-buttons justify-content-center py-3">
         <Col xs="5" md="2" className="mt-3">
-          <Button color="primary" size="sm" onClick={() => setPageNumber(1)}>
+          <Button
+            color="primary"
+            size="sm"
+            aria-label={intl.formatMessage(messages.first_page_label)}
+            onClick={() => setPageNumber(1)}
+          >
             <Icon color="white" icon="it-refresh" />{' '}
             {intl.formatMessage(messages.first_page)}
           </Button>
@@ -235,8 +244,12 @@ const FlipBookView = (props) => {
       <Row className="flipbook-download justify-content-center">
         <UniversalLink
           className="btn btn-secondary my-3"
-          href={`${props.data.url}/@@download/file`}
-          download
+          href={
+            !props.data.url.includes('@@download')
+              ? `${props.data.url}/@@display-file/file`
+              : props.data.url.replace('@@download/file', '@@display-file/file')
+          }
+          target="_blank"
         >
           {intl.formatMessage(messages.download_pdf)}
         </UniversalLink>

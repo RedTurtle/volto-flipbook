@@ -111,7 +111,6 @@ class FlipBookEdit extends Component {
    * @returns {undefined}
    */
   onChangeUrl = ({ target }) => {
-    debugger;
     this.setState({
       url: target.value,
     });
@@ -124,7 +123,6 @@ class FlipBookEdit extends Component {
    * @returns {undefined}
    */
   onSubmitUrl = () => {
-    debugger;
     this.props.onChangeBlock(this.props.block, {
       ...this.props.data,
       url: flattenToAppURL(this.state.url),

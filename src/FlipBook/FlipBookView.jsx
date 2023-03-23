@@ -154,7 +154,7 @@ const FlipBookView = (props) => {
               renderAnnotationLayer={false}
               pageNumber={pageNumber}
             ></Page>
-            {pageNumber + 1 < numPages && (
+            {pageNumber + 1 <= numPages && (
               <Page
                 scale={0.9}
                 renderTextLayer={true}
@@ -188,6 +188,8 @@ const FlipBookView = (props) => {
           <span>
             Pagina{' '}
             {(props.data.singlePage || singlePageBreakpoint
+              ? pageNumber
+              : pageNumber === numPages && numPages % 2 !== 0
               ? pageNumber
               : `${pageNumber} e ${pageNumber + 1}`) ||
               (numPages ? 1 : '--')}{' '}

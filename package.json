@@ -10,13 +10,27 @@
     "plone",
     "react"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "i18n": "rm -rf build/messages && NODE_ENV=production i18n --addon"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "react-pdf": "^5.7.2"
   },
   "devDependencies": {
-    "@plone/scripts": "*"
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@plone/scripts": "*",
+    "@release-it/conventional-changelog": "^2.0.1",
+    "husky": "^6.0.0",
+    "release-it": "^14.10.1"
   }
 }

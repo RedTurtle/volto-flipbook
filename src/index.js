@@ -1,15 +1,15 @@
 // https://github.com/theproductiveprogrammer/flipbook-viewer
 // https://github.com/iberezansky/flip-book-jquery
-import { FlipBookEdit, FlipBookView } from './FlipBook';
+import { FlipBookEdit, FlipBookView } from "./FlipBook";
 
-import icon_sfogliatore from '@plone/volto/icons/file.svg';
+import icon_sfogliatore from "@plone/volto/icons/file.svg";
 
 const applyConfig = (config) => {
   config.blocks.blocksConfig.flipBook = {
-    id: 'flipBook',
-    title: 'Sfogliatore PDF',
+    id: "flipBook",
+    title: "Sfogliatore PDF",
     icon: icon_sfogliatore,
-    group: 'common',
+    group: "common",
     view: FlipBookView,
     edit: FlipBookEdit,
     restricted: false,

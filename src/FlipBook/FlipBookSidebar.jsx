@@ -1,10 +1,10 @@
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from "react-intl";
 
-import { BlockDataForm } from '@plone/volto/components';
-import { FlipBookSchema } from './schema';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Segment } from 'semantic-ui-react';
+import { BlockDataForm } from "@plone/volto/components";
+import { FlipBookSchema } from "./schema";
+import PropTypes from "prop-types";
+import React from "react";
+import { Segment } from "semantic-ui-react";
 
 const FlipBookSidebar = (props) => {
   const { data, block, onChangeBlock } = props;
@@ -23,10 +23,7 @@ const FlipBookSidebar = (props) => {
           <></>
         ) : (
           <>
-            <FormattedMessage
-              id="No file selected"
-              defaultMessage="No file selected"
-            />
+            <FormattedMessage id="No file selected" defaultMessage="No file selected" />
           </>
         )}
       </Segment>

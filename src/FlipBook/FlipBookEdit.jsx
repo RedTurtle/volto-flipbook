@@ -1,39 +1,35 @@
-import { Button, Dimmer, Input, Loader, Message } from 'semantic-ui-react';
-import { Icon, SidebarPortal } from '@plone/volto/components';
-import React, { Component } from 'react';
-import { defineMessages, injectIntl } from 'react-intl';
-import {
-  flattenToAppURL,
-  getBaseUrl,
-  withBlockExtensions,
-} from '@plone/volto/helpers';
+import { Button, Dimmer, Input, Loader, Message } from "semantic-ui-react";
+import { Icon, SidebarPortal } from "@plone/volto/components";
+import React, { Component } from "react";
+import { defineMessages, injectIntl } from "react-intl";
+import { flattenToAppURL, getBaseUrl, withBlockExtensions } from "@plone/volto/helpers";
 
-import FlipBookSidebar from './FlipBookSidebar';
-import FlipBookView from './FlipBookView';
-import PropTypes from 'prop-types';
-import aheadSVG from '@plone/volto/icons/ahead.svg';
-import clearSVG from '@plone/volto/icons/clear.svg';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { createContent } from '@plone/volto/actions';
-import { isEqual } from 'lodash';
-import loadable from '@loadable/component';
-import navTreeSVG from '@plone/volto/icons/nav.svg';
-import { readAsDataURL } from 'promise-file-reader';
-import uploadSVG from '@plone/volto/icons/upload.svg';
+import FlipBookSidebar from "./FlipBookSidebar";
+import FlipBookView from "./FlipBookView";
+import PropTypes from "prop-types";
+import aheadSVG from "@plone/volto/icons/ahead.svg";
+import clearSVG from "@plone/volto/icons/clear.svg";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { createContent } from "@plone/volto/actions";
+import { isEqual } from "lodash";
+import loadable from "@loadable/component";
+import navTreeSVG from "@plone/volto/icons/nav.svg";
+import { readAsDataURL } from "promise-file-reader";
+import uploadSVG from "@plone/volto/icons/upload.svg";
 
 const messages = defineMessages({
   FileBlockInputPlaceholder: {
-    id: 'Browse the site, drop a file, or type an URL',
-    defaultMessage: 'Ricerca sul sito o carica un file',
+    id: "Browse the site, drop a file, or type an URL",
+    defaultMessage: "Ricerca sul sito o carica un file",
   },
   uploadingFile: {
-    id: 'Uploading file',
-    defaultMessage: 'Carica file',
+    id: "Uploading file",
+    defaultMessage: "Carica file",
   },
 });
 
-const Dropzone = loadable(() => import('react-dropzone'));
+const Dropzone = loadable(() => import("react-dropzone"));
 
 // const FlipBookEdit = (props) => {
 class FlipBookEdit extends Component {
@@ -64,7 +60,7 @@ class FlipBookEdit extends Component {
   };
   state = {
     uploading: false,
-    url: '',
+    url: "",
     dragging: false,
   };
 
@@ -75,18 +71,14 @@ class FlipBookEdit extends Component {
    * @returns {undefined}
    */
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      this.props.request.loading &&
-      nextProps.request.loaded &&
-      this.state.uploading
-    ) {
+    if (this.props.request.loading && nextProps.request.loaded && this.state.uploading) {
       this.setState({
         uploading: false,
       });
       this.props.onChangeBlock(this.props.block, {
         ...this.props.data,
-        url: nextProps.content['@id'],
-        alt: '',
+        url: nextProps.content["@id"],
+        alt: "",
       });
     }
   }
@@ -97,11 +89,7 @@ class FlipBookEdit extends Component {
    * @memberof Edit
    */
   shouldComponentUpdate(nextProps) {
-    return (
-      this.props.selected ||
-      nextProps.selected ||
-      !isEqual(this.props.data, nextProps.data)
-    );
+    return this.props.selected || nextProps.selected || !isEqual(this.props.data, nextProps.data);
   }
 
   /**
@@ -138,11 +126,11 @@ class FlipBookEdit extends Component {
    * @returns {undefined}
    */
   onKeyDownVariantMenuForm = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       e.stopPropagation();
       this.onSubmitUrl();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       e.preventDefault();
       e.stopPropagation();
       // TODO: Do something on ESC key
@@ -158,16 +146,16 @@ class FlipBookEdit extends Component {
       this.props.createContent(
         getBaseUrl(this.props.pathname),
         {
-          '@type': 'File',
+          "@type": "File",
           title: file[0].name,
           file: {
             data: fields[3],
             encoding: fields[2],
-            'content-type': fields[1],
+            "content-type": fields[1],
             filename: file[0].name,
           },
         },
-        this.props.block,
+        this.props.block
       );
     });
   };
@@ -183,33 +171,21 @@ class FlipBookEdit extends Component {
   node = React.createRef();
 
   render() {
-    const placeholder =
-      this.props.data.placeholder ||
-      this.props.intl.formatMessage(messages.FileBlockInputPlaceholder);
+    const placeholder = this.props.data.placeholder || this.props.intl.formatMessage(messages.FileBlockInputPlaceholder);
 
     return (
       <div>
         {this.props.data.url && <FlipBookView {...this.props} />}
         <div>
           {!this.props.data.url && this.props.editable && (
-            <Dropzone
-              noClick
-              onDrop={this.onDrop}
-              onDragEnter={this.onDragEnter}
-              onDragLeave={this.onDragLeave}
-              className="dropzone"
-            >
+            <Dropzone noClick onDrop={this.onDrop} onDragEnter={this.onDragEnter} onDragLeave={this.onDragLeave} className="dropzone">
               {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()}>
                   <Message>
                     {this.state.dragging && <Dimmer active></Dimmer>}
                     {this.state.uploading && (
                       <Dimmer active>
-                        <Loader indeterminate>
-                          {this.props.intl.formatMessage(
-                            messages.uploadingFile,
-                          )}
-                        </Loader>
+                        <Loader indeterminate>{this.props.intl.formatMessage(messages.uploadingFile)}</Loader>
                       </Dimmer>
                     )}
                     <div className="no-file-wrapper">
@@ -222,8 +198,8 @@ class FlipBookEdit extends Component {
                               e.stopPropagation();
                               e.preventDefault();
                               this.props.openObjectBrowser({
-                                mode: 'link',
-                                dataName: 'url',
+                                mode: "link",
+                                dataName: "url",
                               });
                             }}
                           >
@@ -235,9 +211,9 @@ class FlipBookEdit extends Component {
                             <Icon name={uploadSVG} size="24px" />
                             <input
                               {...getInputProps({
-                                type: 'file',
+                                type: "file",
                                 onChange: this.onUploadFile,
-                                style: { display: 'none' },
+                                style: { display: "none" },
                               })}
                             />
                           </label>
@@ -261,7 +237,7 @@ class FlipBookEdit extends Component {
                               className="cancel"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                this.setState({ url: '' });
+                                this.setState({ url: "" });
                               }}
                             >
                               <Icon name={clearSVG} size="30px" />
@@ -305,6 +281,6 @@ export default compose(
       request: state.content.subrequests[ownProps.block] || {},
       content: state.content.subrequests[ownProps.block]?.data,
     }),
-    { createContent },
-  ),
+    { createContent }
+  )
 )(FlipBookEdit);

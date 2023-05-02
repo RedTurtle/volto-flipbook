@@ -1,64 +1,64 @@
-import "./_flipbook.scss";
+import './_flipbook.scss';
 
-import { Document, Page as ReactPdfPage, pdfjs } from "react-pdf";
-import React, { useRef, useState, useCallback } from "react";
-import { Container, Row, Col, Button, Icon } from "design-react-kit/dist/design-react-kit";
-import { UniversalLink } from "@plone/volto/components";
+import { Document, Page as ReactPdfPage, pdfjs } from 'react-pdf';
+import React, { useRef, useState, useCallback } from 'react';
+import { Container, Row, Col, Button, Icon } from 'design-react-kit/dist/design-react-kit';
+import { UniversalLink } from '@plone/volto/components';
 
-import cx from "classnames";
+import cx from 'classnames';
 
-import { defineMessages, useIntl } from "react-intl";
+import { defineMessages, useIntl } from 'react-intl';
 
-import useWindowSize from "../helpers/windowSize";
-import HTMLFlipBook from "react-pageflip";
-import { range } from "lodash";
+import useWindowSize from '../helpers/windowSize';
+import HTMLFlipBook from 'react-pageflip';
+import { range } from 'lodash';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const messages = defineMessages({
   first_page: {
-    id: "first_page",
-    defaultMessage: "Prima pagina",
+    id: 'first_page',
+    defaultMessage: 'Prima pagina',
   },
   first_page_label: {
-    id: "first_page_label",
-    defaultMessage: "Vai alla prima pagina del visualizzatore di pdf",
+    id: 'first_page_label',
+    defaultMessage: 'Vai alla prima pagina del visualizzatore di pdf',
   },
   previous_page: {
-    id: "previous_page",
-    defaultMessage: "Precedente",
+    id: 'previous_page',
+    defaultMessage: 'Precedente',
   },
   previous_page_label: {
-    id: "previous_page_label",
-    defaultMessage: "Pagina precedente del PDF",
+    id: 'previous_page_label',
+    defaultMessage: 'Pagina precedente del PDF',
   },
   next_page: {
-    id: "next_page",
-    defaultMessage: "Successiva",
+    id: 'next_page',
+    defaultMessage: 'Successiva',
   },
   next_page_label: {
-    id: "next_page_label",
-    defaultMessage: "Pagina successiva del PDF",
+    id: 'next_page_label',
+    defaultMessage: 'Pagina successiva del PDF',
   },
   play_start: {
-    id: "play_start",
-    defaultMessage: "Play",
+    id: 'play_start',
+    defaultMessage: 'Play',
   },
   play_start_label: {
-    id: "play_start_label",
-    defaultMessage: "Inizia lo scrollo automatico del PDF",
+    id: 'play_start_label',
+    defaultMessage: 'Inizia lo scrollo automatico del PDF',
   },
   play_stop: {
-    id: "play_stop",
-    defaultMessage: "Stop",
+    id: 'play_stop',
+    defaultMessage: 'Stop',
   },
   play_stop_label: {
-    id: "play_stop_label",
-    defaultMessage: "Ferma lo scrollo automatico del PDF",
+    id: 'play_stop_label',
+    defaultMessage: 'Ferma lo scrollo automatico del PDF',
   },
   download_pdf: {
-    id: "download_pdf",
-    defaultMessage: "Visualizza PDF",
+    id: 'download_pdf',
+    defaultMessage: 'Visualizza PDF',
   },
 });
 
@@ -88,9 +88,9 @@ const FlipBookView = (props) => {
   // const offset = props.data.singlePage || singlePageBreakpoint ? 1 : 2;
   const offset = 1;
   const options = {
-    cMapUrl: "cmaps/",
+    cMapUrl: 'cmaps/',
     cMapPacked: true,
-    standardFontDataUrl: "standard_fonts/",
+    standardFontDataUrl: 'standard_fonts/',
   };
 
   // function onFileChange(event) {
@@ -153,26 +153,26 @@ const FlipBookView = (props) => {
 
   // TODO
   const bookProps = {
-    width: 550, // base page width
-    height: 733, // base page height
-    size: "stretch",
+    width: 595, // base page width
+    height: 842, // base page height
+    size: 'stretch',
     // set threshold values:
     minWidth: 315,
     maxWidth: 1000,
-    minHeight: 420,
-    maxHeight: 1350,
+    minHeight: 446,
+    maxHeight: 1415,
     maxShadowOpacity: 0.5, // Half shadow intensity
     showCover: false,
-    mobileScrollSupport: false, // disable content scrolling on mobile devices
+    mobileScrollSupport: true, // disable content scrolling on mobile devices
   };
 
   return props.data.url ? (
     <Container
-      className={cx("flipbook-wrapper", {
-        "bg-gray": props.data.setBackground,
+      className={cx('flipbook-wrapper', {
+        'bg-gray': props.data.setBackground,
       })}
     >
-      <Document file={props.data.url.includes("@@download") ? props.data.url : `${props.data.url}/@@download/file`} onLoadSuccess={onDocumentLoadSuccess} options={options} loading="Aggiornando PDF" error="Caricamento PDF fallito" className="py-3">
+      <Document file={props.data.url.includes('@@download') ? props.data.url : `${props.data.url}/@@download/file`} onLoadSuccess={onDocumentLoadSuccess} options={options} loading="Aggiornando PDF" error="Caricamento PDF fallito" className="py-3">
         <HTMLFlipBook ref={book} onFlip={onFlip} {...bookProps}>
           {range(1, numPages + 1).map((n) => (
             <Page key={`page-${n}`} pageNumber={n}></Page>
@@ -222,7 +222,7 @@ const FlipBookView = (props) => {
             </Col>
             <Col xs="4" md="2" className="mt-3">
               <span>
-                Pagina {(singlePageBreakpoint ? pageNumber : pageNumber === numPages && numPages % 2 !== 0 ? pageNumber : `${pageNumber} e ${pageNumber + 1}`) || (numPages ? 1 : "--")} di {numPages || "--"}
+                Pagina {(singlePageBreakpoint ? pageNumber : pageNumber === numPages && numPages % 2 !== 0 ? pageNumber : `${pageNumber} e ${pageNumber + 1}`) || (numPages ? 1 : '--')} di {numPages || '--'}
               </span>
             </Col>
             <Col xs="3" md="2" className="mt-3">
@@ -245,7 +245,7 @@ const FlipBookView = (props) => {
             </Col>
           </Row>
           <Row className="flipbook-download justify-content-center">
-            <UniversalLink className="btn btn-secondary my-3" href={!props.data.url.includes("@@download") ? `${props.data.url}/@@display-file/file` : props.data.url.replace("@@download/file", "@@display-file/file")} target="_blank">
+            <UniversalLink className="btn btn-secondary my-3" href={!props.data.url.includes('@@download') ? `${props.data.url}/@@display-file/file` : props.data.url.replace('@@download/file', '@@display-file/file')} target="_blank">
               {intl.formatMessage(messages.download_pdf)}
             </UniversalLink>
           </Row>

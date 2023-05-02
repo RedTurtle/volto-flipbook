@@ -167,11 +167,7 @@ const FlipBookView = (props) => {
   };
 
   return props.data.url ? (
-    <Container
-      className={cx('flipbook-wrapper', {
-        'bg-gray': props.data.setBackground,
-      })}
-    >
+    <Container className="flipbook-wrapper">
       <Document file={props.data.url.includes('@@download') ? props.data.url : `${props.data.url}/@@download/file`} onLoadSuccess={onDocumentLoadSuccess} options={options} loading="Aggiornando PDF" error="Caricamento PDF fallito" className="py-3">
         <HTMLFlipBook ref={book} onFlip={onFlip} {...bookProps}>
           {range(1, numPages + 1).map((n) => (

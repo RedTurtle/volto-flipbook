@@ -163,7 +163,7 @@ const FlipBookView = (props) => {
     maxHeight: 1415,
     maxShadowOpacity: 0.5, // Half shadow intensity
     showCover: false,
-    mobileScrollSupport: true, // disable content scrolling on mobile devices
+    mobileScrollSupport: false, // disable content scrolling on mobile devices
   };
 
   return props.data.url ? (
@@ -218,11 +218,12 @@ const FlipBookView = (props) => {
             </Col>
             <Col xs="4" md="2" className="mt-3">
               <span>
+                {/* eslint-disable-next-line prettier/prettier */}
                 Pagina {(singlePageBreakpoint ? pageNumber : pageNumber === numPages && numPages % 2 !== 0 ? pageNumber : `${pageNumber} e ${pageNumber + 1}`) || (numPages ? 1 : '--')} di {numPages || '--'}
               </span>
             </Col>
             <Col xs="3" md="2" className="mt-3">
-              <Button color="primary" size="sm" disabled={!pageNumber || pageNumber + offset > numPages} onClick={() => changePage(offset, numPages)} aria-label={intl.formatMessage(messages.next_page_label)}>
+              <Button color="primary" size="sm" disabled={!pageNumber || pageNumber + offset >= numPages} onClick={() => changePage(offset, numPages)} aria-label={intl.formatMessage(messages.next_page_label)}>
                 <Icon color="white" icon="it-chevron-right" />
                 {intl.formatMessage(messages.next_page)}
               </Button>

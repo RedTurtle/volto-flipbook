@@ -2,7 +2,7 @@ import './_flipbook.scss';
 
 import { Document, Page as ReactPdfPage, pdfjs } from 'react-pdf';
 import React, { useRef, useState, useCallback } from 'react';
-import { Container, Row, Col, Button, Icon } from 'design-react-kit/dist/design-react-kit';
+import { Container, Row, Col, Button, Icon } from 'design-react-kit';
 import { UniversalLink } from '@plone/volto/components';
 
 import cx from 'classnames';
